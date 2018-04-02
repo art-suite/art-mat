@@ -1,0 +1,21 @@
+import Math, &ArtSuite, &TextPalette
+
+class TextStyles extends HotStyleProps
+  @smallFontSize: 14
+  @fontSizeRatio: 1.25
+  @fontFamily: "" "Open Sans", HelveticaNeue, "Helvetica Neue", Helvetica, Arial, sans-serif
+
+  fontSizes =
+    bittyText      : @smallFontSize * pow @fontSizeRatio, -2
+    tinyText       : @smallFontSize * pow @fontSizeRatio, -1
+    smallText      : @smallFontSize
+    mediumText     : @smallFontSize * pow @fontSizeRatio, 1
+    largeText      : @smallFontSize * pow @fontSizeRatio, 2
+    xLargeText     : @smallFontSize * pow @fontSizeRatio, 3
+    xxLargeText    : @smallFontSize * pow @fontSizeRatio, 4
+    xxxLargeText   : @smallFontSize * pow @fontSizeRatio, 5
+    x9LargeText    : @smallFontSize * pow @fontSizeRatio, 9
+
+  object fontSize in fontSizes into @
+    {} fontSize, @fontFamily, color: black.primary
+

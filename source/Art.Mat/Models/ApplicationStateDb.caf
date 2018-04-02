@@ -1,0 +1,42 @@
+import &StandardImport
+
+class ApplicationStateDb extends ApplicationState
+  @abstractClass()
+
+  @extendableProperty
+    fields: id: "id"
+
+  @fields: (fields) ->
+    @_fieldValidator = null
+    @extendFields fields
+
+  @getter
+    fieldValidator: -> @_fieldValidator ?= new Validator @getFields()
+
+  create: (props) -> Promise.then ->
+    @setState
+      id = randomString 5
+      props = @fieldValidator.validateCreate
+        merge props, {id}
+        context: "#{@name}.create"
+
+    # return a promise-returning the new record
+    @onNextReady()
+    .then -> props
+
+  update: (id, props) -> Promise.then ->
+    log update: {@name, id, props}
+    @setState
+      id
+      props = merge @state[id], @fieldValidator.validateUpdate
+        props
+        context: "#{@name}.update #{id}"
+
+    # return a promise-returning the new record
+    @onNextReady()
+    .then -> props
+
+  delete: (id) ->
+    log delete: {} @name, id
+    Promise.then -> @state[id]
+    .tap -> @replaceState objectWithout @state, id

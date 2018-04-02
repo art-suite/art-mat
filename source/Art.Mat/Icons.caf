@@ -1,0 +1,67 @@
+import &ArtSuite
+
+class Icons extends HotStyleProps
+
+  iconChars =
+    bubble:                   :💬
+    search:                   :🔍
+    trash:                    :🗑
+
+    sun:                      :☀︎
+    moon:                     :☽
+
+    box:                      :◼︎
+    checkboxUnchecked:        :☐
+    checkboxChecked:          :☑︎
+    check:                    :✓
+
+    heart:                    :♥︎
+    mail:                     :✉️
+
+    cog:                      :⚙︎
+    share:                    :⤴︎
+    flag:                     :⚑
+
+    star:                     :★
+    openStar:                 :☆
+
+    handLeft:                 :☜
+    handRight:                :☞
+
+    pencil:                   :✎
+
+    redo:                     :⟳
+    undo:                     :⟲
+
+    close:                    :˟
+    cancel:                   "⃠"
+    circlePlus:               :⊕
+
+    cloudUpload:              :⬆︎
+    cloudDownload:            :⬇︎
+    leftRightArrow:           :⬌
+    upDownArrow:              :⬍
+    doubleArrowLeft:          :⇐
+    doubleArrowRight:         :⇒
+    doubleArrowUp:            :⇑
+    doubleArrowDown:          :⇓
+    arrowLeft:                :←
+    arrowRight:               :→
+    arrowUp:                  :↑
+    arrowDown:                :↓
+    triangleLeft:             :◂
+    triangleRight:            :▸
+    triangleUp:               :▴
+    triangleDown:             :▾
+
+    plus:                     :+
+    minus:                    :-
+    hashtag:                  :#
+    +:                        :+
+    -:                        :-
+    !:                        :!
+    help:                     :?
+
+  color = &TextPalette.black.primary
+  object text in iconChars into @
+    {} fontFamily: "Arial", fontSize: 26, layoutMode: "tight", text, color
