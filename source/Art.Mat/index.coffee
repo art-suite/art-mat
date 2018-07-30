@@ -9,4 +9,5 @@ module.exports
   StandardImport: require './StandardImport'
   TextPalette:    require './TextPalette'   
   TextStyles:     require './TextStyles'    
+require './Lib'
 require './Models'

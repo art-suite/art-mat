@@ -1,0 +1,92 @@
+import &ArtStandardLib
+
+class Time
+  # weekdays = "sun mon tue wed thu fri sat".split " "
+  # fullWeekdays = "Sunday Monday Tuesday Wednesday Thursday Friday Saturday".split " "
+  # months = "jan feb mar apr may jun jul aug sep oct nov dec".split " "
+  # fullMonths = "January February March April May June July August September October November December".split " "
+
+  @dateAgePartArray: (date, longForm) ->
+    dateAgeString date, longForm
+
+  dayPart = (date) ->
+    hours = date.getHours()
+    switch
+      when hours < 12 then "morning"
+      when hours < 17  then "afternoon"
+      else "evening"
+
+  longNames =
+    ms: "millisecond"
+    s:  "second"
+    m:  "minute"
+    h:  "hour"
+    d:  "day"
+
+  @humanDurationString: humanDurationString = (seconds, verbose) ->
+    if seconds < 1                  then number = (seconds * 1000 | 0)           ; unit = "ms"
+    else if seconds < 60            then number = (seconds | 0)                  ; unit = "s"
+    else if seconds < 2 * 60 * 60   then number = (seconds / 60 | 0)             ; unit = "m"
+    else if seconds <= 24 * 60 * 60 then number = (seconds / (60 * 60) | 0)      ; unit = "h"
+    else                                 number = (seconds / (24 * 60 * 60) | 0) ; unit = "d"
+    if verbose
+      pluralize number, longNames[unit]
+    else
+      "#{number}#{unit}"
+
+  @niceDateString: (date) ->
+    now = toDate()
+    date = toDate date
+
+    if now.getFullYear() != date.getFullYear()
+      formatDate date, "mmmm d yyyy"
+    else if now.getMonth() != date.getMonth()
+      formatDate date, "mmmm d"
+    else
+      switch date.getDate() - now.getDate()
+        when 1 then "tomorrow"
+        when -1 then "yesterday"
+        when 0 then "today"
+        else formatDate date, "mmmm d"
+
+  @niceTimeDetailsString: (date) =>
+    "#{formatDate date, "h:mmtt"} #{@niceDateString date}"
+
+
+  @dateAgeString: dateAgeString = (date, longForm, precise) ->
+
+    date = toDate date
+    now = new Date
+
+    if date > now
+      # FUTURE
+      humanDurationString (date - now) / 1000
+
+    else
+      # PAST
+      ageInSeconds = dateAgeInSeconds date
+      ageInMinutes = ageInSeconds / 60
+      ageInHours = ageInMinutes / 60
+      ageInDays = ageInHours / 24
+      if ageInMinutes < 1
+        if precise
+          pluralize(ageInSeconds | 0, "second") + " ago"
+        else
+          "just now"
+        # [ageInSeconds | 0, if longForm then "sec ago" else "sec"]
+      else if ageInHours < 1
+        minPlurale = pluralize ageInMinutes | 0, if longForm then "minute" else "min"
+        if longForm then "#{minPlurale} ago" else minPlurale
+      else if ageInDays < 2 && (date.getDay()+1) % 7 == now.getDay()
+        "yesterday #{dayPart date}"
+      else if ageInDays < 1
+        if "12:00am" == out = formatDate date, "h:MMtt"
+          "midnight"
+        else
+          out
+      else if ageInDays < 7 && now.getDay() != date.getDay()
+        formatDate(date, "dddd") + " #{dayPart date}"
+      else if now.getYear() == date.getYear() && (ageInDays <60 || now.getMonth() != date.getMonth())
+        formatDate date, "mmmm dS"
+      else
+        formatDate date, "mmm dS yyyy"

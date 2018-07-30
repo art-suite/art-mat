@@ -4,4 +4,5 @@
 module.exports = require './namespace'
 module.exports
 .addModules
+  AgeString:          require './AgeString'         
   ApplicationStateDb: require './ApplicationStateDb'

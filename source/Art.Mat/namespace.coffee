@@ -3,4 +3,5 @@
 
 module.exports = (require 'neptune-namespaces').addNamespace 'Art.Mat', class Mat extends Neptune.PackageNamespace
   @version: require('../../package.json').version
+require './Lib/namespace';
 require './Models/namespace'
