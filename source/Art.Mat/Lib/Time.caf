@@ -86,7 +86,7 @@ class Time
           out
       else if ageInDays < 7 && now.getDay() != date.getDay()
         formatDate(date, "dddd") + " #{dayPart date}"
-      else if now.getYear() == date.getYear() && (ageInDays <60 || now.getMonth() != date.getMonth())
+      else if now.getYear() == date.getYear() && (ageInDays < 60 || now.getMonth() != date.getMonth())
         formatDate date, "mmmm dS"
       else
         formatDate date, "mmm dS yyyy"
